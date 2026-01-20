@@ -2,3 +2,4 @@ _build
 .DS_Store
 prog/game_js.bc.js
 prog/game_sdl.exe
+prog/game_js.bc-for-jsoo
