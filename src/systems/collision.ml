@@ -34,7 +34,7 @@ let update dt el =
         e1#position#set (Vector.add e1#position#get n)
       end else begin
         let n1, n2 =
-          if v1 = Vector.zero && v1 = v2 then begin
+          if Vector.is_almost_zero v1 && Vector.is_almost_zero v2 then begin
             0.5, 0.5
           end else begin
             let normv1 = Vector.norm v1 in

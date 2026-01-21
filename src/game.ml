@@ -11,12 +11,11 @@ let last_dt = ref 0.
 let update dt =
   let () = Input.handle_input () in
   let delta = (dt -. !last_dt) /. 25. in
+  Gfx.debug "%f\n%!" delta;
   Move_system.update delta;
   Collision_system.update delta;
   Draw_system.update delta;
   last_dt := dt;
-  let v = Player.player#velocity#get in
-  Gfx.debug "{%f, %f}%!" v.x v.y;
   None
 
 let (let@) f k = f k
