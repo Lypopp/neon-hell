@@ -17,7 +17,7 @@ let unset_key s =
 
 let register action_table key action =
   Hashtbl.replace action_table key action
-
+ 
 let rec get_inputs () =
   match Gfx.poll_event () with
       KeyDown s -> if not (has_key key_table s) then (set_key s; get_inputs ())
@@ -37,4 +37,10 @@ let () =
   register action_just_released_table "q" (fun () -> Player.move_direction 1.);
 
   register action_just_pressed_table "d" (fun () -> Player.move_direction 1.);
-  register action_just_released_table "d" (fun () -> Player.move_direction (-1.))
+  register action_just_released_table "d" (fun () -> Player.move_direction (-1.));
+
+  register action_pressed_table "space" (fun () -> Player.jump ());
+  register action_pressed_table " " (fun () -> Player.jump ());
+
+  register action_just_pressed_table "s" (fun () -> Player.fast_falling 1.);
+  register action_just_released_table "s" (fun () -> Player.fast_falling (-1.));

@@ -30,4 +30,6 @@ let vwall2_x = window_width - wall_thickness
 let vwall2_y = vwall1_y
 let g = Vector.{x = 0.0; y = 2. }
 let friction = 0.5
-let player_speed = 10.
+let player_speed = 7.
+let player_jump_speed = 20.
+let player_fast_falling_speed = 1.

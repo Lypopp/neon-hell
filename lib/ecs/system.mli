@@ -41,6 +41,8 @@ sig
   val reset : unit -> unit
   (** Remove all entities from the system. *)
 
+  val get_seq : unit -> t Seq.t
+  (** Returns the sequence of the entities registered to the system. *)
 end
 
 module Make (X : T) : S with type t = X.t

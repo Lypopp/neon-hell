@@ -1,5 +1,6 @@
 open Ecs
 open Component_defs
+open Rect
 
 type t = collidable
 
@@ -13,6 +14,20 @@ let rec iter_pairs f s =
   | Seq.Cons(e, s') ->
     Seq.iter (fun e' -> f e e') s';
     iter_pairs f s'
+
+let is_on_floor entity el =
+  let pos = entity#position#get in
+  let box = entity#box#get in
+  let p_checker = Vector.(add entity#position#get {x = 0.; y = float box.height}) in
+  let r_checker = Rect.{width = box.width ; height = 1} in
+  Seq.exists (fun (e2 : t) ->
+    let pos2 = e2#position#get in
+    let box2 = e2#box#get in
+    pos <> pos2 && box <> box2 &&
+    let p, r = Rect.mdiff p_checker r_checker pos2 box2 in
+    Rect.has_origin p r
+  ) el
+
 
 
 let update dt el =
