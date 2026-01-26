@@ -4,7 +4,6 @@ open Rect
 
 type t = collidable
 
-let e = 0.
 
 let init _ = ()
 
@@ -64,7 +63,7 @@ let update dt el =
       let v = Vector.sub v1 v2 in
       let m1 = e1#mass#get in
       let m2 = e2#mass#get in
-      let j =  ((-.(1. +. e)) *. (Vector.dot v nnorm)) /. ((1./.m1) +. (1./.m2)) in
+      let j =  ((-.(1. +. Cst.elasticity)) *. (Vector.dot v nnorm)) /. ((1./.m1) +. (1./.m2)) in
       e1#velocity#set (Vector.add v1 (Vector.mult (j/.m1) nnorm));
       e2#velocity#set (Vector.sub v2 (Vector.mult (j/.m2) nnorm));
       ()

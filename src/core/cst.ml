@@ -34,3 +34,4 @@ let player_jump_speed = 20.
 let player_fast_falling_speed = 1.
 
 let minimal_speed = 0.1
+let elasticity = 0.
