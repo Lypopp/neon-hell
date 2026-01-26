@@ -12,6 +12,12 @@ class velocity () =
     method velocity = r
   end
 
+class friction () =
+  let r = Component.init Vector.{x = 1. ; y = 1.} in
+  object
+    method friction = r
+  end
+
 class mass () =
   let r = Component.init 0.0 in
   object
@@ -69,6 +75,8 @@ class type movable =
     inherit Entity.t
     inherit position
     inherit velocity
+    inherit friction
+    inherit mass
     inherit forces
   end
 
@@ -113,6 +121,7 @@ class block () =
     inherit mass ()
     inherit forces ()
     inherit velocity ()
+    inherit friction ()
   end
 
 class player () =
@@ -126,4 +135,5 @@ class player () =
     inherit mass ()
     inherit forces ()
     inherit velocity ()
+    inherit friction ()
   end
