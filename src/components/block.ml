@@ -29,7 +29,7 @@ let create_random () =
 
 
 let walls () =
-  List.map create
+  List.map (fun p -> let res = create p in res#tag#set Wall_tag; res)
     Cst.[ 
       (hwall1_x, hwall1_y, Vector.zero, Texture.blue, hwall_width, hwall_height, infinity);
       (hwall2_x, hwall2_y, Vector.zero, Texture.red, hwall_width, hwall_height, infinity);

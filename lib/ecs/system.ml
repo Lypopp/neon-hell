@@ -23,10 +23,6 @@ module type S = sig
 
   val reset : unit -> unit
   (* remove all entities *)
-
-  val get_seq : unit -> t Seq.t
-  (** Returns the sequence of the entities registered to the system. *)
-
 end
 
 
@@ -49,8 +45,6 @@ struct
   let update dt = X.update dt (Entity.Table.to_seq_keys  table)
 
   let reset () = Entity.Table.clear table
-
-  let get_seq () = Entity.Table.to_seq_keys table
 end
 module Make (X:T) : S with type t = X.t =
 struct
@@ -62,7 +56,6 @@ struct
   let register = M.register
   let unregister = M.unregister
   let reset = M.reset
-  let get_seq = M.get_seq
 end
 
 let init_all dt =

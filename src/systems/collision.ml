@@ -14,24 +14,7 @@ let rec iter_pairs f s =
     Seq.iter (fun e' -> f e e') s';
     iter_pairs f s'
 
-let is_on_floor entity el =
-  let pos = entity#position#get in
-  let box = entity#box#get in
-  let p_checker = Vector.(add entity#position#get {x = 0.; y = float box.height}) in
-  let r_checker = Rect.{width = box.width ; height = 1} in
-  Seq.exists (fun (e2 : t) ->
-    let pos2 = e2#position#get in
-    let box2 = e2#box#get in
-    pos <> pos2 && box <> box2 &&
-    let p, r = Rect.mdiff p_checker r_checker pos2 box2 in
-    Rect.has_origin p r
-  ) el
-
-
-
-let update dt el =
-  el
-  |> iter_pairs (fun (e1:t) (e2:t) ->
+let collision e1 e2 has_player =
   if e1#mass#get = infinity && e2#mass#get = infinity then
     ()
   else
@@ -40,6 +23,15 @@ let update dt el =
       ()
     else
       let n = Rect.penetration_vector p r in
+      let () = 
+        match has_player with
+        | None -> ()
+        | Some i -> 
+          if i = 0 && n.y < 0. then
+            e1#tag#set (Player_tag true)
+          else if i = 1 && n.y > 0. then
+            e2#tag#set (Player_tag true)
+      in
       let v1 = e1#velocity#get in
       let v2 = e2#velocity#get in
       if e1#mass#get = infinity then begin
@@ -68,4 +60,17 @@ let update dt el =
       e2#velocity#set (Vector.sub v2 (Vector.mult (j/.m2) nnorm));
       ()
 
-)
+let update dt el =
+  el
+  |> Seq.iter (fun (e:t) -> 
+    match e#tag#get with
+    | Player_tag true -> e#tag#set (Player_tag false)
+    | _ -> ()
+    );
+  el
+  |> iter_pairs (fun (e1:t) (e2:t) ->
+    match (e1#tag#get, e2#tag#get) with
+    | (Player_tag _, _) -> collision e1 e2 (Some 0)
+    | (_, Player_tag _)  -> collision e1 e2 (Some 1)
+    | (_, _) -> collision e1 e2 None
+    )

@@ -44,6 +44,8 @@ class texture () =
 
 type tag = ..
 type tag += No_tag
+type tag += Wall_tag
+type tag += Player_tag of bool (* is_on_floor *)
 
 class tagged () =
   let r = Component.init No_tag in
@@ -90,6 +92,7 @@ class type collidable =
     inherit resolver
     inherit tagged
     inherit forces
+    inherit tagged
   end
 
 class type physics =
@@ -122,18 +125,10 @@ class block () =
     inherit forces ()
     inherit velocity ()
     inherit friction ()
+    inherit tagged ()
   end
 
 class player () =
   object
-    inherit Entity.t ()
-    inherit position ()
-    inherit box ()
-    inherit resolver ()
-    inherit tagged ()
-    inherit texture ()
-    inherit mass ()
-    inherit forces ()
-    inherit velocity ()
-    inherit friction ()
+    inherit block ()
   end
