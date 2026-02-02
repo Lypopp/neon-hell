@@ -10,6 +10,7 @@ let create (x, y, v, txt, width, height, mass) =
   e#velocity#set v;
   e#box#set Rect.{width;height};
   e#mass#set mass;
+  e#forces#set Cst.g;
   Collision_system.(register (e:>t));
   Move_system.(register (e:>t));
   Draw_system.(register (e:>t));
@@ -24,7 +25,7 @@ let create_random () =
   let txt = Texture.black in 
   let width = 20 in
   let height = 20 in
-  let mass = 1.0 +. (Random.float 99.0) in
+  let mass = 1.0 +. (Random.float 20.0) in
   create (x, y, Vector.{x = vx; y = vy}, txt, width, height, mass)
 
 

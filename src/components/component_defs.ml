@@ -46,6 +46,7 @@ type tag = ..
 type tag += No_tag
 type tag += Wall_tag
 type tag += Player_tag of bool (* is_on_floor *)
+type tag += Enemy_tag of bool (* is_on_floor *)
 
 class tagged () =
   let r = Component.init No_tag in
@@ -58,18 +59,6 @@ class resolver () =
   object
     method resolve = r
   end
-
-class score1 () =
-  let r = Component.init 0 in
-  object
-    method score1 = r
-  end
-class score2 () =
-  let r = Component.init 0 in
-  object
-    method score2 = r
-  end
-
 
 (** Archetype *)
 class type movable =
@@ -92,7 +81,7 @@ class type collidable =
     inherit resolver
     inherit tagged
     inherit forces
-    inherit tagged
+    inherit resolver
   end
 
 class type physics =
@@ -126,9 +115,15 @@ class block () =
     inherit velocity ()
     inherit friction ()
     inherit tagged ()
+    inherit resolver ()
   end
 
 class player () =
+  object
+    inherit block ()
+  end
+
+class enemy () =
   object
     inherit block ()
   end

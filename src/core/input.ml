@@ -32,6 +32,8 @@ let handle_input () =
 
 let () =
   register action_pressed_table "n" (fun () -> ignore (Block.create_random ()) );
+  
+  register action_just_pressed_table "k" (fun () -> ignore (Enemy.create (300, 300, Vector.{x=0. ; y=0.}, Texture.red, 20, 50, 1.)) );
 
   register action_just_pressed_table "q" (fun () -> Player.move_direction (-1.));
   register action_just_released_table "q" (fun () -> Player.move_direction 1.);
